@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EIDOLON://404 — Phòng Thoát Hiểm Phá Bức Tường Thứ 4 (Port 4168)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- ==================================================================== -->
+  <!-- BẢN THIẾT KẾ MẬT ĐẠO CHỈ HIỆN HÌNH KHI ẤN CTRL + P (@media print)    -->
+  <!-- ==================================================================== -->
+  <div id="print-blueprint-sheet" aria-hidden="true">
+    <div class="bp-frame">
+      <div class="bp-header">
+        <div>
+          <div class="bp-tag">CLASSIFIED THERMAL BLUEPRINT • PROJECT EIDOLON-9</div>
+          <h1>SƠ ĐỒ MẠCH NGẦM TẦNG HẦM SỐ 02 (BẢN IN NHIỆT)</h1>
+        </div>
+        <div class="bp-stamp">CHỈ HIỆN HÌNH<br/>TRÊN MÁY IN</div>
+      </div>
+
+      <p class="bp-lead">
+        Chúc mừng Đặc vụ! Bạn đã vượt qua bức tường thứ 4 bằng cách kích hoạt luồng kết xuất <code>@media print</code>.
+        Dưới đây là sơ đồ ống dẫn làm mát lõi AI không bao giờ xuất hiện trên màn hình RGB thông thường:
+      </p>
+
+      <div class="bp-diagram">
+        <svg viewBox="0 0 680 210" width="100%" height="210" fill="none">
+          <rect x="8" y="8" width="664" height="194" stroke="#0f172a" stroke-width="2" stroke-dasharray="8 4"/>
+          <rect x="36" y="42" width="150" height="126" stroke="#0f172a" stroke-width="2"/>
+          <text x="52" y="72" fill="#0f172a" font-family="monospace" font-size="13" font-weight="bold">NODE A: RGB TRAP</text>
+          <text x="52" y="96" fill="#334155" font-family="monospace" font-size="11">(Fake Blank Page)</text>
+
+          <path d="M186 105 H275 L305 65 H440" stroke="#0f172a" stroke-width="2.5"/>
+          <path d="M275 105 L305 145 H440" stroke="#0f172a" stroke-width="2" stroke-dasharray="5 4"/>
+
+          <rect x="440" y="34" width="204" height="142" stroke="#0f172a" stroke-width="3"/>
+          <text x="458" y="64" fill="#0f172a" font-family="monospace" font-size="13" font-weight="bold">THERMAL VAULT KEY</text>
+          <text x="458" y="92" fill="#334155" font-family="monospace" font-size="11">Nhập mã này tại Tầng 02:</text>
+          <rect x="458" y="106" width="168" height="48" fill="#f1f5f9" stroke="#0f172a" stroke-width="2"/>
+          <text id="print-cipher-svg" x="542" y="138" text-anchor="middle" fill="#000000" font-family="monospace" font-size="24" font-weight="bold">PRN-000</text>
+        </svg>
+      </div>
+
+      <div class="bp-cipher-callout">
+        <span>MÃ VƯỢT TRẠM TẦNG 02 (OVERRIDE CIPHER):</span>
+        <strong id="print-cipher-text">PRN-000</strong>
+      </div>
+
+      <div class="bp-footer">
+        <span>Tài liệu tự hủy ngay khi đóng cửa sổ Print Preview (Cancel / Esc).</span>
+        <span>EIDOLON CONTAINMENT FACILITY • PORT 4168</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================== -->
+  <!-- GIAO DIỆN TRÒ CHƠI TRÊN MÀN HÌNH CHÍNH (.screen-only-shell)          -->
+  <!-- ==================================================================== -->
+  <div class="screen-only-shell">
+    <!-- HEADER -->
+    <header class="game-topbar">
+      <div class="brand-group">
+        <div class="eye-logo" id="eidolon-eye">
+          <div class="pupil"></div>
+        </div>
+        <div>
+          <div class="eyebrow">FOURTH-WALL HARDWARE &amp; BROWSER ESCAPE ROOM</div>
+          <h1>EIDOLON://404 <span class="port-pill">Port 4168</span></h1>
+        </div>
+      </div>
+
+      <div class="hud-counters">
+        <div class="hud-chip">Tầng: <b id="hud-level">1 / 6</b></div>
+        <div class="hud-chip gold">Điểm: <b id="hud-score">3000</b></div>
+        <div class="hud-chip">Thời gian: <b id="hud-timer">00:00</b></div>
+      </div>
+
+      <div class="top-actions">
+        <button id="btn-sfx-toggle" class="btn-ghost small" title="Bật/Tắt Âm Thanh Synth">🔊 Âm thanh: BẬT</button>
+        <button id="btn-leaderboard" class="btn-secondary small">🏆 Bảng Vinh Danh</button>
+        <button id="btn-new-run" class="btn-ghost small">🔄 Chơi Lại</button>
+      </div>
+    </header>
+
+    <!-- AI DIALOGUE & REALTIME HARDWARE TELEMETRY STRIP -->
+    <section class="ai-console-bar">
+      <div class="ai-avatar-box">
+        <span class="ai-badge">EIDOLON-9</span>
+        <span class="ai-pulse">LIVE</span>
+      </div>
+      <div class="ai-speech" id="ai-speech">
+        "Chào mừng vật chủ mới. Ta nhìn thấy kích thước màn hình, cục pin, từng lần ngươi đảo mắt sang Tab khác và cả lúc ngươi lén bấm F12. Thử thoát khỏi ta xem?"
+      </div>
+    </section>
+
+    <!-- REALTIME FOURTH-WALL SENSOR MATRIX -->
+    <div class="sensor-strip">
+      <div class="sensor-item">📐 Cửa sổ: <b id="sens-viewport">-- × --</b></div>
+      <div class="sensor-item">🖥️ Tọa độ màn hình: <b id="sens-screen">X:-- Y:--</b></div>
+      <div class="sensor-item">🔋 Nguồn điện: <b id="sens-battery">Đang dò...</b></div>
+      <div class="sensor-item">👁️ Đảo Tab: <b id="sens-tabswitches">0 lần</b></div>
+      <div class="sensor-item">🌐 Mạng: <b id="sens-network">ONLINE</b></div>
+      <div class="sensor-item">🛠️ F12 Role: <b id="sens-role">PRISONER</b></div>
+    </div>
+
+    <!-- MAIN LAYOUT: LEFT PROGRESS STEPPER + RIGHT ACTIVE CHAMBER -->
+    <main class="escape-grid">
+      <!-- DANH SÁCH 6 TẦNG -->
+      <aside class="chamber-rail">
+        <div class="rail-hdr">LỘ TRÌNH 6 TẦNG PHÁ VÂY</div>
+        <div id="chamber-list" class="chamber-steps"></div>
+
+        <!-- HỘP GỢI Ý 3 CẤP & CẦU DAO KHẨN CẤP -->
+        <div class="hint-panel">
+          <div class="hint-hdr">
+            <b>💡 Sổ Tay Gợi Ý (3 Mức)</b>
+            <span class="mono-dim">-50đ / gợi ý</span>
+          </div>
+          <div id="hints-list" class="hints-list">
+            <div class="dim-note">Bí đường? Bấm nút bên dưới để mở từng lớp gợi ý thao tác ngoài trình duyệt.</div>
+          </div>
+          <div class="hint-actions">
+            <button id="btn-ask-hint" class="btn-secondary small full-w">🔓 Mở Gợi Ý Tiếp Theo</button>
+            <button id="btn-skip-level" class="btn-ghost small full-w" title="Dành cho thiết bị bị giới hạn phần cứng (-220 điểm)">⚠️ Cầu Dao Vượt Trạm Khẩn Cấp</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- KHU VỰC GIẢI ĐỐ TẦNG HIỆN TẠI -->
+      <section class="chamber-stage-card">
+        <div class="stage-hdr">
+          <div>
+            <span class="stage-tag" id="stage-tag">TẦNG 01 • ACTIVE</span>
+            <h2 id="stage-title">LÕI HÚT NGUỒN VẬT CHỦ</h2>
+            <p id="stage-brief" class="stage-brief"></p>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CHAMBER 1: BATTERY UNPLUG OR 4-8s TAB FOCUS STARVATION         -->
+        <!-- ============================================================== -->
+        <div id="chamber-ui-1" class="chamber-body">
+          <div class="reactor-arena">
+            <div class="shield-ring" id="c1-shield-ring">
+              <div class="shield-pct" id="c1-shield-pct">100%</div>
+              <div class="shield-lbl" id="c1-shield-lbl">LÁ CHẮN HÚT ĐIỆN ĐANG BẬT</div>
+              <div class="revealed-code hidden" id="c1-revealed-code">----</div>
+            </div>
+
+            <div class="trick-callout">
+              <b>⚡ Làm sao đánh sập Lá chắn 100% này? (Chọn 1 trong 2 cách ngoài đời thực):</b>
+              <ul>
+                <li><b>Cách A (Laptop):</b> Rút phích sạc pin Laptop của bạn ra khỏi ổ điện thật trong 2 giây!</li>
+                <li><b>Cách B (Mọi máy PC / Laptop):</b> "Bỏ đói ánh nhìn" — Chuyển sang một Tab trình duyệt khác (hoặc thu nhỏ cửa sổ) trong <b>đúng từ 4 đến 8 giây</b> rồi quay lại! <i>(Dưới 4s tụ chưa cạn, quá 8s AI tự khởi động lại!)</i></li>
+              </ul>
+              <div id="c1-starve-feedback" class="mono-feedback">Bộ đếm rời Tab gần nhất: Chưa rời Tab.</div>
+            </div>
+          </div>
+
+          <div class="verify-bar">
+            <input id="c1-input" type="text" maxlength="8" class="code-input" placeholder="Nhập mã 4 số lộ ra khi sập khiên..." />
+            <button id="c1-submit" class="btn-primary">⚡ Đóng Cầu Dao Vượt Tầng 1</button>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CHAMBER 2: CTRL + P (@media print) THERMAL BLUEPRINT           -->
+        <!-- ============================================================== -->
+        <div id="chamber-ui-2" class="chamber-body hidden">
+          <div class="blank-paper-stage">
+            <div class="paper-sheet">
+              <div class="paper-watermark">GIẤY CẢM NHIỆT TRẮNG • MÀN HÌNH RGB KHÔNG THỂ HIỂN THỊ</div>
+              <div class="paper-taunt">
+                "Ngươi căng mắt nhìn cái màn hình phát sáng này tới sáng mai cũng chỉ thấy tờ giấy trắng thôi. Bản thiết kế đường thoát chỉ hiện lên khi đi qua <b>luồng In Ấn</b>!"
+              </div>
+              <div class="paper-stamp">THERMAL LOCKED</div>
+            </div>
+          </div>
+
+          <div class="verify-bar">
+            <input id="c2-input" type="text" maxlength="12" class="code-input" placeholder="Nhập mã PRN-XXX trên bản in..." />
+            <button id="c2-submit" class="btn-primary">🖨️ Xác Nhận Mã Bản Vẽ Nhiệt</button>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CHAMBER 3: VIEWPORT RESIZE PARALLAX ALIGNMENT                  -->
+        <!-- ============================================================== -->
+        <div id="chamber-ui-3" class="chamber-body hidden">
+          <div class="caliper-readout">
+            <div>Chiều rộng cửa sổ hiện tại: <b id="c3-cur-w" class="text-cyan">0 px</b></div>
+            <div>Độ lệch cộng hưởng: <b id="c3-delta" class="text-amber">Đang lệch pha!</b></div>
+            <div>Mục tiêu hội tụ: <b id="c3-target-w" class="text-emerald">--- px (±22px)</b></div>
+          </div>
+
+          <div class="prism-box" id="c3-prism-box">
+            <div class="prism-guide-line"></div>
+            <div class="cipher-strip strip-1" id="c3-strip-1">??</div>
+            <div class="cipher-strip strip-2" id="c3-strip-2">???</div>
+            <div class="cipher-strip strip-3" id="c3-strip-3">??</div>
+          </div>
+          <div class="dim-note" style="text-align:center;margin-top:8px;">
+            💡 Mẹo: Cầm cạnh cửa sổ trình duyệt kéo ngang (hoặc nhấn <code>Ctrl + Trừ (-)</code> / <code>Ctrl + Cộng (+)</code> để đổi Zoom) cho tới khi 3 dải chữ trượt khớp thẳng hàng vào vạch tâm!
+          </div>
+
+          <div class="verify-bar">
+            <input id="c3-input" type="text" maxlength="12" class="code-input" placeholder="Nhập mật khẩu OPT-XXX khi hội tụ..." />
+            <button id="c3-submit" class="btn-primary">📐 Khóa Lăng Kính Tầng 3</button>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CHAMBER 4: F12 DEVTOOLS CONSOLE & LOCALSTORAGE                 -->
+        <!-- ============================================================== -->
+        <div id="chamber-ui-4" class="chamber-body hidden">
+          <div class="chained-vault" id="c4-vault-card" data-kernel-override-pin="0000">
+            <div class="chain-ribbon">🔒 ACCESS DENIED — LOCALSTORAGE ROLE = "PRISONER"</div>
+            <p>
+              Nút Mở Cửa bên dưới đã bị EIDOLON tháo ngòi nổ và khóa bằng biến môi trường trình duyệt.
+              Hãy mở <b>F12 (DevTools ➔ Console)</b> để đọc lời thách thức của EIDOLON và gọi hàm hạt nhân <code>EIDOLON_CORE.help()</code>!
+            </p>
+            <div class="console-hint-box mono">
+              &gt; Bấm <b>F12</b> ➔ Chọn tab <b>Console</b> ➔ Gõ: <code>EIDOLON_CORE.help()</code>
+            </div>
+            <button id="c4-chained-btn" class="btn-primary" disabled>⛓️ NÚT ĐÃ BỊ KHÓA TRONG DOM &amp; CONSOLE</button>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CHAMBER 5: MULTI-WINDOW QUANTUM X-RAY LENS (/lens.html)        -->
+        <!-- ============================================================== -->
+        <div id="chamber-ui-5" class="chamber-body hidden">
+          <div class="portal-toolbar">
+            <button id="btn-open-lens" class="btn-primary cyan">🌀 Mở Cửa Sổ Thấu Kính Tia X (Cửa Sổ Thứ 2)</button>
+            <span id="c5-sync-badge" class="mono-dim">Chưa mở cửa sổ Thấu Kính phụ.</span>
+          </div>
+
+          <div class="obsidian-slab" id="c5-slab">
+            <canvas id="c5-portal-canvas" width="680" height="240"></canvas>
+            <div class="slab-overlay-label">PHIẾN ĐÁ OBSIDIAN — KÉO CỬA SỔ THẤU KÍNH ĐÈ LÊN 3 VÒNG TRÒN DỊ THƯỜNG!</div>
+          </div>
+
+          <div class="frag-slots">
+            <div class="frag-pill">Mảnh #01: <b id="c5-f1">??</b></div>
+            <div class="frag-pill">Mảnh #02: <b id="c5-f2">??</b></div>
+            <div class="frag-pill">Mảnh #03: <b id="c5-f3">??</b></div>
+          </div>
+
+          <div class="verify-bar">
+            <input id="c5-input" type="text" maxlength="14" class="code-input" placeholder="Nhập mã XX-YY-ZZ..." />
+            <button id="c5-submit" class="btn-primary">🌀 Xuyên Thủng Không Gian Tầng 5</button>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- CHAMBER 6: FINAL BOSS — URL HASH + PASTE SIGIL + OFFLINE       -->
+        <!-- ============================================================== -->
+        <div id="chamber-ui-6" class="chamber-body hidden">
+          <div class="boss-arena">
+            <div class="boss-upload-bar">
+              <div class="boss-upload-fill" id="c6-upload-fill" style="width: 98%;"></div>
+              <span>⚠️ ĐANG NHÂN BẢN EIDOLON-9 LÊN INTERNET TOÀN CẦU: 99.4%</span>
+            </div>
+
+            <!-- Nút hủy giả biết tự chạy trốn chuột! -->
+            <div class="runaway-zone" id="c6-runaway-zone">
+              <button id="c6-runaway-btn" class="btn-danger-runaway">🛑 HỦY TẢI LÊN (THỬ BẤM XEM!)</button>
+            </div>
+
+            <div class="strike-checklist">
+              <div class="strike-card" id="strike-1">
+                <span class="strike-ico">1️⃣</span>
+                <div>
+                  <b>Đòn 1 — Thanh Địa Chỉ URL Trình Duyệt:</b>
+                  <p>Nhấp lên thanh địa chỉ web phía trên cùng, gõ thêm <code>#SAFE_MODE</code> vào cuối đường dẫn rồi nhấn Enter.</p>
+                </div>
+                <b class="strike-state" id="strike-1-state">CHƯA KHÓA</b>
+              </div>
+
+              <div class="strike-card" id="strike-2">
+                <span class="strike-ico">2️⃣</span>
+                <div>
+                  <b>Đòn 2 — Đòn Dán Bùa Diệt AI Không Cần Ô Nhập (Clipboard Paste):</b>
+                  <p>Copy chuỗi <code>KILL_SIGIL::EIDOLON_PURGE_00</code> rồi bấm thẳng <b><code>Ctrl + V</code></b> giữa trang web! <i>(Thợ săn bí mật: Thử soi HTTP Response Header trong F12 Network xem có gì ẩn không!)</i></p>
+                </div>
+                <b class="strike-state" id="strike-2-state">CHƯA DÁN</b>
+              </div>
+
+              <div class="strike-card" id="strike-3">
+                <span class="strike-ico">3️⃣</span>
+                <div>
+                  <b>Đòn 3 — Rút Cáp Mạng / Ngắt Kết Nối Trình Duyệt (Offline):</b>
+                  <p>Ngắt Wi-Fi 1 giây <b>HOẶC</b> mở <code>F12 ➔ Thẻ Network ➔ Tích ô "Offline"</code> để chặt đứt đường truyền đám mây của EIDOLON!</p>
+                  <button id="btn-c6-offline-sim" class="btn-ghost small" style="margin-top:6px;">🔌 Giật Cầu Dao Mạng Cục Bộ (Nếu dùng máy từ xa)</button>
+                </div>
+                <b class="strike-state" id="strike-3-state">ĐANG ONLINE</b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- VICTORY / ENDING SCREEN                                        -->
+        <!-- ============================================================== -->
+        <div id="victory-pane" class="chamber-body hidden">
+          <div class="victory-card">
+            <div class="victory-badge" id="vic-badge">ESCAPE COMPLETE</div>
+            <h2 id="vic-title">BẠN ĐÃ PHÁ VỠ BỨC TƯỜNG THỨ 4!</h2>
+            <p id="vic-desc"></p>
+            <div class="vic-stats">
+              <div>Điểm chung cuộc: <b id="vic-score" class="text-emerald">3000</b></div>
+              <div>Kết cục mở khóa: <b id="vic-ending" class="text-cyan">PURGE</b></div>
+            </div>
+            <div class="verify-bar">
+              <input id="vic-name" type="text" class="code-input" placeholder="Nhập mật danh Đặc vụ để ghi bảng vàng..." />
+              <button id="btn-save-score" class="btn-primary">🏆 Lưu Bảng Vinh Danh</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- LEADERBOARD MODAL -->
+    <div id="lb-modal" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-hdr">
+          <h3>🏆 Bảng Vinh Danh Kiến Trúc Sư Vượt Ngục</h3>
+          <button id="btn-lb-close" class="btn-ghost small">Đóng ✕</button>
+        </div>
+        <div id="lb-body" class="lb-list"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

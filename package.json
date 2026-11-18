@@ -1,0 +1,19 @@
+{
+  "name": "fourth-wall-escape",
+  "version": "1.0.0",
+  "description": "EIDOLON://404 — Phòng Thoát Hiểm Phá Bức Tường Thứ 4: Giải Đố Bằng Phần Cứng, Ctrl+P Bản Vẽ Mật, Co Giãn Cửa Sổ, F12 Console, Đa Cửa Sổ Xuyên Không & Ngắt Mạng Trùm Cuối (Port 4168)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_server.js"
+  },
+  "keywords": [
+    "fourth-wall-escape-room",
+    "browser-hardware-puzzles",
+    "multi-window-portal",
+    "print-css-blueprint",
+    "devtools-console-arg"
+  ],
+  "author": "AI_App Ecosystem",
+  "license": "MIT"
+}

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌀 THẤU KÍNH TIA X XUYÊN CỬA SỔ — EIDOLON LENS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #040812;
+      color: #e2e8f0;
+      font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      border: 2px solid #22d3ee;
+    }
+    .hdr {
+      padding: 8px 12px;
+      background: rgba(6, 182, 212, 0.16);
+      border-bottom: 1px solid rgba(34, 211, 238, 0.35);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #67e8f9;
+    }
+    .coords {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #34d399;
+    }
+    .viewport {
+      position: relative;
+      flex: 1;
+      display: grid;
+      place-items: center;
+    }
+    canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .readout {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: rgba(4, 10, 22, 0.78);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+    }
+    .frag-big {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 34px;
+      font-weight: 800;
+      color: #34d399;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 18px rgba(16, 185, 129, 0.8);
+    }
+    .sub {
+      font-size: 11.5px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+    .foot {
+      padding: 7px 12px;
+      background: #070e1d;
+      border-top: 1px solid rgba(148, 163, 184, 0.2);
+      font-size: 11.5px;
+      color: #cbd5e1;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="hdr">
+    <span>🌀 THẤU KÍNH X-RAY ĐA CỬA SỔ</span>
+    <span class="coords" id="win-pos">X:0 Y:0</span>
+  </div>
+  <div class="viewport">
+    <canvas id="lens-canvas"></canvas>
+    <div class="readout">
+      <div class="frag-big" id="frag-text">--</div>
+      <div class="sub" id="frag-hint">Hãy cầm thanh tiêu đề cửa sổ này KÉO ĐÈ LÊN 3 điểm phát sáng ở Cửa Sổ Chính!</div>
+    </div>
+  </div>
+  <div class="foot" id="sync-status">Đang kết nối tia lượng tử với Cửa Sổ Chính...</div>
+
+  <script>
+    (function () {
+      const bus = new BroadcastChannel('eidolon_quantum_bus');
+      const canvas = document.getElementById('lens-canvas');
+      const ctx = canvas.getContext('2d');
+      const posEl = document.getElementById('win-pos');
+      const fragEl = document.getElementById('frag-text');
+      const hintEl = document.getElementById('frag-hint');
+      const statusEl = document.getElementById('sync-status');
+
+      let mainState = null;
+
+      bus.onmessage = (ev) => {
+        if (ev.data && ev.data.type === 'MAIN_BEACONS') {
+          mainState = ev.data;
+          statusEl.textContent = '🟢 Đã khóa tia xuyên không với Cửa Sổ Chính — Hãy kéo cửa sổ này quanh màn hình!';
+        }
+      };
+
+      function resize() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function tick() {
+        const myCenterX = window.screenX + window.outerWidth / 2;
+        const myCenterY = window.screenY + window.outerHeight / 2;
+        posEl.textContent = `Screen(${Math.round(myCenterX)}, ${Math.round(myCenterY)})`;
+
+        // Broadcast our real screen coordinates to the main window
+        bus.postMessage({
+          type: 'LENS_PING',
+          centerX: myCenterX,
+          centerY: myCenterY,
+          screenX: window.screenX,
+          screenY: window.screenY,
+          width: window.outerWidth,
+          height: window.outerHeight
+        });
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+
+        // Reticle rings
+        ctx.strokeStyle = 'rgba(34, 211, 238, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 78, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(cx, cy, 42, 0, Math.PI * 2);
+        ctx.stroke();
+
+        if (mainState && Array.isArray(mainState.beacons)) {
+          // Draw Cross-Window Tether Beam pointing straight toward Main Window Slab Center!
+          const dxMain = mainState.slabCenterX - myCenterX;
+          const dyMain = mainState.slabCenterY - myCenterY;
+          const angle = Math.atan2(dyMain, dxMain);
+
+          ctx.save();
+          ctx.strokeStyle = '#10b981';
+          ctx.lineWidth = 3;
+          ctx.shadowColor = '#10b981';
+          ctx.shadowBlur = 12;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(cx + Math.cos(angle) * 400, cy + Math.sin(angle) * 400);
+          ctx.stroke();
+          ctx.restore();
+
+          // Check proximity in physical OS monitor pixels to any of the 3 hidden beacons!
+          let hitBeacon = null;
+          let minDist = Infinity;
+
+          for (const b of mainState.beacons) {
+            const dist = Math.hypot(b.screenX - myCenterX, b.screenY - myCenterY);
+            if (dist < minDist) minDist = dist;
+            // Draw relative blip inside our radar!
+            const relX = cx + (b.screenX - myCenterX) * 0.35;
+            const relY = cy + (b.screenY - myCenterY) * 0.35;
+            ctx.fillStyle = dist < 115 ? '#34d399' : '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(relX, relY, dist < 115 ? 7 : 4.5, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (dist < 115) {
+              hitBeacon = b;
+            }
+          }
+
+          if (hitBeacon) {
+            fragEl.textContent = `#${hitBeacon.index}: ${hitBeacon.frag}`;
+            hintEl.textContent = `✅ ĐÃ BẮT TRÚNG ĐIỂM DỊ THƯỜNG SỐ 0${hitBeacon.index}!`;
+            bus.postMessage({
+              type: 'BEACON_REVEALED',
+              index: hitBeacon.index,
+              frag: hitBeacon.frag
+            });
+          } else {
+            fragEl.textContent = `${Math.round(minDist)}px`;
+            hintEl.textContent = 'Khoảng cách tới điểm ẩn gần nhất — Kéo cửa sổ lại gần điểm chấm vàng!';
+          }
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>
